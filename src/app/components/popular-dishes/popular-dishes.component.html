@@ -1,0 +1,102 @@
+<section class="px-4 sm:px-6 lg:px-8 bg-customBackground py-8 sm:py-12">
+    <div class="py-6 sm:py-8 flex flex-col max-w-7xl mx-auto">
+        <!-- Header with arrows -->
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pb-8">
+            <h1 class="text-2xl sm:text-4xl font-bold">Popular Dishes</h1>
+            <!-- Desktop Navigation Arrows -->
+            <div class="hidden md:flex gap-4">
+                <button (click)="previousSlide()"
+                    class="p-2 border-2 border-secondary hover:bg-secondary hover:text-white hover:border-white flex justify-center items-center rounded-full transition-all opacity-50 hover:opacity-100">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+                <button (click)="nextSlide()"
+                    class="p-2 border-2 bg-secondary text-white border-secondary hover:bg-secondary hover:brightness-75 flex justify-center items-center rounded-full transition-all duration-150 ease-in">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Cards Container -->
+        <div class="relative overflow-hidden w-full">
+            <!-- Desktop Sliding View -->
+            <div *ngIf="!isMobile" 
+                 class="flex gap-[1%] w-full transition-transform duration-300 ease-in-out"
+                 [style.transform]="'translateX(' + offset + '%)'">
+                <div *ngFor="let item of cardsData" 
+                     class="flex-none w-[24%]">  <!-- 24% width + 1% gap = 25% total -->
+                    <div class="card-container h-full">
+                        <!-- Card Content -->
+                        <div class="bg-white flex flex-col shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                            <!-- Image -->
+                            <div class="relative w-full pt-[100%]">
+                                <img [src]="item.ImageSrc" [alt]="item.title + ' image'"
+                                    class="absolute top-0 left-0 w-full h-full object-cover">
+                            </div>
+                            <!-- Content -->
+                            <div class="flex flex-col gap-4 items-center p-4">
+                                <h1 class="text-xl font-bold">{{ item.title }}</h1>
+                                <div class="flex items-center">
+                                    <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                                        <mat-icon class="text-secondary text-2xl">
+                                            {{ star <= item.rating ? 'star' : 'star_border' }} </mat-icon>
+                                    </ng-container>
+                                </div>
+                                <p class="text-xs text-center">{{ item.description }}</p>
+                            </div>
+                            <!-- Price and Button -->
+                            <div class="flex items-center justify-between w-full px-4 py-4 mt-auto">
+                                <div class="text-xl font-extrabold">${{ item.price }}</div>
+                                <button
+                                    class="px-5 py-2 rounded-full border-secondary border-2 hover:bg-secondary hover:text-white transition-colors duration-300">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Grid View -->
+            <div *ngIf="isMobile" 
+                 class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div *ngFor="let item of visibleCards" class="card-container">
+                    <!-- Card Content -->
+                    <div class="bg-white flex flex-col shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                        <!-- Image -->
+                        <div class="relative w-full pt-[100%]">
+                            <img [src]="item.ImageSrc" [alt]="item.title + ' image'"
+                                class="absolute top-0 left-0 w-full h-full object-cover">
+                        </div>
+                        <!-- Content -->
+                        <div class="flex flex-col gap-4 items-center p-4">
+                            <h1 class="text-xl font-bold">{{ item.title }}</h1>
+                            <div class="flex items-center">
+                                <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                                    <mat-icon class="text-secondary text-2xl">
+                                        {{ star <= item.rating ? 'star' : 'star_border' }} </mat-icon>
+                                </ng-container>
+                            </div>
+                            <p class="text-xs text-center">{{ item.description }}</p>
+                        </div>
+                        <!-- Price and Button -->
+                        <div class="flex items-center justify-between w-full px-4 py-4 mt-auto">
+                            <div class="text-xl font-extrabold">${{ item.price }}</div>
+                            <button
+                                class="px-5 py-2 rounded-full border-secondary border-2 hover:bg-secondary hover:text-white transition-colors duration-300">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Load More Button -->
+        <div *ngIf="showLoadMore" class="mt-8 flex justify-center">
+            <button (click)="loadMore()"
+                class="px-6 py-2 bg-secondary text-white rounded-full hover:brightness-90 transition-all duration-300">
+                View More
+            </button>
+        </div>
+    </div>
+</section>

@@ -8,9 +8,10 @@ module.exports = {
       colors:
       {
         primary: "#fff",
-        secondary: "#fbb103",
+        secondary: "#f30a39",
         customGray: "#d0d0d0",
         customBackground: "#f4f5f7",
+        customRed: "#f30a39",
         customBackgroundBG: "#0b161a",  //Body background color
       }
     },

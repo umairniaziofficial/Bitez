@@ -1,0 +1,43 @@
+.flex {
+    display: flex;
+  }
+  
+  .transition-transform {
+    transition: transform 0.3s ease-in-out;
+    will-change: transform;
+  }
+  
+  .overflow-hidden {
+    overflow: hidden;
+  }
+  
+  .min-w-\[calc\(25\%-16px\)\] {
+    min-width: calc(25% - 16px);
+  }
+  
+  .sm\:min-w-\[calc\(33\.33\%-16px\)\] {
+    min-width: calc(33.33% - 16px);
+  }
+  
+  .lg\:min-w-\[calc\(25\%-16px\)\] {
+    min-width: calc(25% - 16px);
+  }
+
+.card-container {
+  height: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Mobile grid layout */
+@media (max-width: 767px) {
+  .grid {
+    display: grid;
+    gap: 1rem;
+  }
+}
+
+.flex-none {
+  flex: none;
+}
