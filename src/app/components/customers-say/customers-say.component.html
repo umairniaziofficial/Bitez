@@ -1,0 +1,38 @@
+<div class="py-12 max-w-7xl mx-auto">
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pb-8">
+        <h1 class="text-2xl sm:text-4xl font-bold">What our Customer says?</h1>
+        <!-- Desktop Navigation Arrows -->
+        <div class="hidden md:flex gap-4">
+            <button (click)="previousSlide()"
+                class="p-2 border-2 border-secondary hover:bg-secondary hover:text-white hover:border-white flex justify-center items-center rounded-full transition-all opacity-50 hover:opacity-100">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <button (click)="nextSlide()"
+                class="p-2 border-2 bg-secondary text-white border-secondary hover:bg-secondary hover:brightness-75 flex justify-center items-center rounded-full transition-all duration-150 ease-in">
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+        </div>
+    </div>
+    <!-- Cards Container -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+        <!-- Card -->
+        <div class="w-full p-4 rounded shadow-md flex flex-col gap-4" *ngFor="let customer of customersData; let i = index">
+            <p>
+                &quot; {{customer.description}}&quot;
+
+            </p>
+            <div class="flex items-center justify-between">
+              <div>
+                    <!-- Avatar Image -->
+                    <img [src]="customer.avatarSrc" [alt]="customer.name + ' Image'" class="w-12 h-12 rounded-full">
+                    <h1 class="font-bold text-sm">{{customer.name}}</h1>
+              </div>
+              <div>
+                <!-- Company -->
+                 <div class="font-bold text-sm">{{customer.company}}</div>
+                 <div class="text-gray-400 text-xs">{{customer.position}}</div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
