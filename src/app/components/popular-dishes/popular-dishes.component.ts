@@ -2,6 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { NgFor, NgIf } from '@angular/common';
 
+interface DishItem {
+  title: string;
+  rating: number;
+  description: string;
+  price: number;
+  ImageSrc: string;
+  isWishlisted?: boolean;
+}
+
 @Component({
   selector: 'app-popular-dishes',
   standalone: true,
@@ -10,7 +19,7 @@ import { NgFor, NgIf } from '@angular/common';
   styleUrls: ['./popular-dishes.component.css']
 })
 export class PopularDishesComponent implements OnInit {
-  public cardsData = [
+  public cardsData: DishItem[] = [
     {
       title: "Burger",
       rating: 4,
@@ -56,6 +65,8 @@ export class PopularDishesComponent implements OnInit {
   // Add new property for single item width
   private readonly singleItemWidth = 25; // 25% width per item
   private readonly gapWidth = 1; // 1% gap between items
+
+  private tempRating: number | null = null;
 
   ngOnInit() {
     this.checkScreenSize();
@@ -109,5 +120,33 @@ export class PopularDishesComponent implements OnInit {
     return this.isMobile 
       ? this.cardsData.slice(0, this.mobileVisibleItems)
       : this.cardsData;
+  }
+
+  openQuickView(item: DishItem) {
+    // Implement quick view logic here
+    console.log('Quick view:', item);
+  }
+
+  toggleWishlist(item: DishItem) {
+    item.isWishlisted = !item.isWishlisted;
+    console.log('Wishlist toggled:', item);
+  }
+
+  previewRating(rating: number) {
+    this.tempRating = rating;
+  }
+
+  resetRating() {
+    this.tempRating = null;
+  }
+
+  rateItem(item: DishItem, rating: number) {
+    item.rating = rating;
+    console.log('Rated item:', item);
+  }
+
+  addToCart(item: DishItem) {
+    console.log('Added to cart:', item);
+    // Implement cart logic here
   }
 }
