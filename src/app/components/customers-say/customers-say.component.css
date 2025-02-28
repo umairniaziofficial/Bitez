@@ -1,0 +1,29 @@
+.nav-button {
+  @apply p-3 border-2 border-secondary hover:scale-110 
+           flex justify-center items-center rounded-full 
+           transition-all duration-300;
+}
+
+.nav-button.disabled {
+  @apply opacity-50 hover:scale-100 cursor-not-allowed;
+}
+
+.pattern-dots {
+  background-image: radial-gradient(currentColor 1px, transparent 1px);
+  background-size: calc(10 * 1px) calc(10 * 1px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}

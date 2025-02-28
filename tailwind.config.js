@@ -5,14 +5,13 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors:
-      {
+      colors: {
         primary: "#fff",
-        secondary: "#cd202f",
+        secondary: "#cd202f", 
         customGray: "#d0d0d0",
-        customBackground: "#f6f2f3",
+        customBackground: "#fef7f2",
         customRed: "#f30a39",
-        customBackgroundBG: "#0b161a",  //Body background color
+        customBackgroundBG: "#0b161a", // Body background color
       }
     },
   },

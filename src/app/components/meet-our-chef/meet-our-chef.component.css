@@ -1,0 +1,70 @@
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+/* Create staggered animations for child elements */
+:host ::ng-deep .staggered-fade > *:nth-child(1) { animation-delay: 0.1s; }
+:host ::ng-deep .staggered-fade > *:nth-child(2) { animation-delay: 0.2s; }
+:host ::ng-deep .staggered-fade > *:nth-child(3) { animation-delay: 0.3s; }
+:host ::ng-deep .staggered-fade > *:nth-child(4) { animation-delay: 0.4s; }
+:host ::ng-deep .staggered-fade > *:nth-child(5) { animation-delay: 0.5s; }
+
+/* Custom shadow effects */
+.hover-shadow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Card background glow effect */
+.glow-on-hover:hover::before {
+  opacity: 1;
+}
+
+.glow-on-hover::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: radial-gradient(circle at 50% 0%, var(--secondary-color), transparent 70%);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 1rem;
+}
+
+/* Ensure aspect ratio for images */
+.aspect-square {
+  aspect-ratio: 1/1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Better image handling */
+.aspect-square img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* Prevent image stretching */
+img {
+  max-width: 100%;
+}

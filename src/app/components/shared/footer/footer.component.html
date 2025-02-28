@@ -1,0 +1,69 @@
+<footer class="relative bg-customBackground text-customBackgroundBG">
+    <div class="absolute inset-0 bg-gradient-to-br from-transparent to-secondary opacity-5"></div>
+
+    <div class="container mx-auto px-4 py-12 relative z-10">
+        <!-- Logo Section -->
+        <div class="flex flex-col items-center mb-12" @fadeIn>
+            <div class="transform hover:scale-105 transition-transform duration-300">
+                <img src="/Logo.svg" alt="Bitez Logo" class="w-24 h-24 lg:w-32 lg:h-32">
+            </div>
+            <div class="w-full max-w-xs h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent mt-8"></div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12" @fadeIn>
+            <!-- Newsletter Section -->
+            <div class="lg:col-span-4 space-y-6 text-center md:text-left">
+                <h3 class="text-2xl font-bold">Subscribe Newsletter</h3>
+                <form (ngSubmit)="handleSubscribe($event)" class="space-y-3">
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="email" [(ngModel)]="email" name="email" placeholder="Email"
+                            class="flex-1 px-3 py-2 rounded bg-white/10 border border-gray-700 focus:border-secondary"
+                            [class.opacity-50]="isSubscribing">
+                        <button type="submit" [disabled]="isSubscribing || !email"
+                            class="px-4 py-2 bg-secondary hover:bg-red-600 rounded text-white disabled:opacity-50">
+                            <span *ngIf="!isSubscribing">Subscribe</span>
+                            <div *ngIf="isSubscribing"
+                                class="animate-spin w-4 h-4 border-2 border-white rounded-full border-t-transparent">
+                            </div>
+                        </button>
+                    </div>
+                    <div *ngIf="showSuccessMessage" @fadeIn class="text-green-400 text-xs">
+                        Thanks for subscribing!
+                    </div>
+                </form>
+
+                <!-- Social Links -->
+                <div class="flex gap-4 mt-8 justify-center sm:justify-start">
+                    <a *ngFor="let social of socialLinks" [href]="social.url" [attr.aria-label]="social.label"
+                        class="p-2 rounded-full hover:bg-white/10 transition-all duration-300 group">
+                        <img [src]="'/brands/' + social.icon" [alt]="social.label"
+                            class="w-6 h-6 group-hover:scale-110 transition-transform duration-300">
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer Sections -->
+            <div *ngFor="let section of footerSections" class="lg:col-span-2 text-center md:text-left">
+                <h3 class="text-xl font-bold mb-6">{{ section.title }}</h3>
+                <ul class="space-y-3">
+                    <li *ngFor="let link of section.links">
+                        <a [href]="link.url"
+                            class="hover:text-secondary transition-colors duration-300 flex items-center justify-center md:justify-start group">
+                            <span class="transform group-hover:translate-x-2 transition-transform duration-300">
+                                {{ link.text }}
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="mt-16 pt-8 border-t border-gray-700/50 text-center" @fadeIn>
+            <p class="text-gray-400">
+                &copy; {{ title }} {{ currentYear }}. All rights reserved.
+            </p>
+        </div>
+    </div>
+</footer>

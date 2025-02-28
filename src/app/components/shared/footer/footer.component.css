@@ -1,0 +1,60 @@
+:host {
+  display: block;
+  --hover-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Link hover effect */
+a {
+  position: relative;
+  white-space: nowrap;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--secondary-color, #ff0000);
+  transition: width var(--hover-transition);
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+/* Input focus styles */
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(var(--secondary-color-rgb, 255, 0, 0), 0.2);
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

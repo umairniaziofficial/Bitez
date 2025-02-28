@@ -3,6 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-secondary: #FF5722;
+  --color-background: #FAFAFA;
+}
+
 html,
 body {
   height: 100%;
@@ -20,6 +25,22 @@ body {
 /* Add smooth scrolling to the whole app */
 html {
   scroll-behavior: smooth;
+}
+
+/* Optimize for motion-sensitive users */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Enhance focus styles for accessibility */
+button:focus, a:focus {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
 }
 
 /* Add custom animations */

@@ -1,38 +1,102 @@
-<div class="py-12 max-w-7xl mx-auto">
-    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pb-8">
-        <h1 class="text-2xl sm:text-4xl font-bold">What our Customer says?</h1>
-        <!-- Desktop Navigation Arrows -->
-        <div class="hidden md:flex gap-4">
-            <button (click)="previousSlide()"
-                class="p-2 border-2 border-secondary hover:bg-secondary hover:text-white hover:border-white flex justify-center items-center rounded-full transition-all opacity-50 hover:opacity-100">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
-            <button (click)="nextSlide()"
-                class="p-2 border-2 bg-secondary text-white border-secondary hover:bg-secondary hover:brightness-75 flex justify-center items-center rounded-full transition-all duration-150 ease-in">
-                <mat-icon>arrow_forward</mat-icon>
-            </button>
-        </div>
-    </div>
-    <!-- Cards Container -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-        <!-- Card -->
-        <div class="w-full p-4 rounded shadow-md flex flex-col gap-4" *ngFor="let customer of customersData; let i = index">
-            <p>
-                &quot; {{customer.description}}&quot;
+<section class="px-4 sm:px-6 lg:px-8 bg-customBackground py-12 sm:py-16 relative overflow-hidden"
+    (mouseenter)="pauseAutoPlay()" (mouseleave)="resumeAutoPlay()">
+    <div class="absolute inset-0 opacity-5 pattern-dots"></div>
 
-            </p>
-            <div class="flex items-center justify-between">
-              <div>
-                    <!-- Avatar Image -->
-                    <img [src]="customer.avatarSrc" [alt]="customer.name + ' Image'" class="w-12 h-12 rounded-full">
-                    <h1 class="font-bold text-sm">{{customer.name}}</h1>
-              </div>
-              <div>
-                <!-- Company -->
-                 <div class="font-bold text-sm">{{customer.company}}</div>
-                 <div class="text-gray-400 text-xs">{{customer.position}}</div>
-              </div>
+    <div class="py-6 sm:py-8 flex flex-col max-w-7xl mx-auto relative">
+        <!-- Header section with progress bar -->
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pb-8 sm:pb-12">
+            <div class="relative w-full sm:w-auto">
+                <h1 class="text-3xl sm:text-4xl font-bold relative text-center sm:text-left">
+                    What our Customers say?
+                    <span class="absolute -bottom-2 left-0 w-1/2 h-1 bg-secondary rounded-full"></span>
+                </h1>
+                <!-- Progress bar -->
+                <div class="h-1 bg-gray-200 rounded-full mt-4 relative overflow-hidden">
+                    <div class="h-full bg-secondary rounded-full transition-all duration-500"
+                        [style.width.%]="progressPercentage"></div>
+                </div>
+            </div>
+
+            <!-- Navigation Controls -->
+            <div class="hidden sm:flex items-center gap-4">
+                <button (click)="previousSlide()" class="nav-button group" [class.disabled]="offset === 0"
+                    aria-label="Previous slide">
+                    <mat-icon class="group-hover:text-white transition-colors">arrow_back</mat-icon>
+                </button>
+                <button (click)="nextSlide()" class="nav-button group bg-secondary"
+                    [class.disabled]="currentIndex === customersData.length - visibleItems" aria-label="Next slide">
+                    <mat-icon class="text-white">arrow_forward</mat-icon>
+                </button>
             </div>
         </div>
+
+        <!-- Cards Container -->
+        <div class="relative overflow-hidden w-full">
+            <!-- Desktop and Tablet Sliding View -->
+            <div *ngIf="!isMobile" class="flex gap-4 w-full transition-transform duration-500 ease-out"
+                [style.transform]="'translateX(' + offset + '%)'">
+                <div *ngFor="let customer of customersData" [style.width]="cardWidth" class="flex-none" [@fadeSlide]>
+                    <div class="bg-white p-6 rounded-xl  transition-all duration-300 h-full 
+                              transform hover:scale-[1.02] hover:rotate-1">
+                        <div class="flex flex-col h-full justify-between">
+                            <div>
+                                <div class="flex items-center mb-4">
+                                    <div class="relative">
+                                        <img [src]="customer.avatarSrc" [alt]="customer.name"
+                                            class="w-12 h-12 rounded-full object-cover border-2 border-secondary">
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="font-bold text-lg">{{ customer.name }}</h3>
+                                        <p class="text-gray-500 text-sm">{{ customer.position }} at {{ customer.company
+                                            }}</p>
+                                    </div>
+                                </div>
+                                <!-- Rating Stars -->
+                                <div class="flex gap-1 mb-3">
+                                    <mat-icon *ngFor="let star of [1,2,3,4,5]" class="text-yellow-400">star</mat-icon>
+                                </div>
+                                <p class="text-gray-600 text-lg leading-relaxed mb-4">"{{ customer.description }}"</p>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <img [src]="customer.companyLogo" [alt]="customer.company"
+                                    class="h-8 w-auto opacity-50 hover:opacity-75 transition-opacity">
+                                <span class="text-xs text-gray-400">Verified Customer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Grid View -->
+            <div *ngIf="isMobile" class="grid grid-cols-1 gap-6 animate-fadeIn">
+                <div *ngFor="let customer of visibleCards"
+                    class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex flex-col">
+                        <div class="flex items-center mb-4">
+                            <img [src]="customer.avatarSrc" [alt]="customer.name"
+                                class="w-12 h-12 rounded-full object-cover border-2 border-secondary">
+                            <div class="ml-3">
+                                <h3 class="font-bold text-lg">{{ customer.name }}</h3>
+                                <p class="text-gray-500 text-sm">{{ customer.position }} at {{ customer.company }}</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-lg leading-relaxed mb-4">"{{ customer.description }}"</p>
+                        <div class="flex justify-end">
+                            <img [src]="customer.company + '-logo.png'" [alt]="customer.company"
+                                class="h-8 w-auto opacity-50">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Load More Button -->
+        <div *ngIf="showLoadMore" class="mt-8 flex justify-center">
+            <button (click)="loadMore()"
+                class="group px-8 py-3 bg-secondary text-white rounded-full hover:bg-white hover:text-secondary border-2 border-secondary transition-all duration-300 flex items-center gap-2">
+                <span>View More</span>
+                <mat-icon class="transform group-hover:translate-x-1 transition-transform">arrow_forward</mat-icon>
+            </button>
+        </div>
     </div>
-</div>
+</section>

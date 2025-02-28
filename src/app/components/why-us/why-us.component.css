@@ -1,5 +1,455 @@
 @import url('https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+:host {
+  font-family: 'Poppins', sans-serif;
+  display: block;
+}
 
 .imperial {
-    font-family: 'Imperial Script', cursive;
+  font-family: 'Imperial Script', cursive;
+}
+
+/* Hero section styling */
+/* .hero-section {
+  background: linear-gradient(135deg, #fef9f5 0%, #fff5ec 100%);
+  position: relative;
+  overflow: hidden;
+} */
+
+/* Animated background */
+.animated-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.floating-element {
+  position: absolute;
+  opacity: 0.2;
+  transform: scale(0.8);
+  animation: float 15s infinite ease-in-out;
+}
+
+.floating-element .material-icons {
+  font-size: 48px;
+  transform: rotate(-15deg);
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0) rotate(0deg) scale(0.8); }
+  25% { transform: translate(10px, -10px) rotate(5deg) scale(0.9); }
+  50% { transform: translate(0, 15px) rotate(0deg) scale(0.8); }
+  75% { transform: translate(-10px, 5px) rotate(-5deg) scale(0.9); }
+  100% { transform: translate(0, 0) rotate(0deg) scale(0.8); }
+}
+
+/* Story paragraph styling */
+.story-paragraph {
+  position: relative;
+  line-height: 1.8;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.story-reveal {
+  display: block;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.8s ease-out;
+  margin-top: 10px;
+}
+
+.story-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.highlight-word {
+  display: inline-block;
+  position: relative;
+  color: #ff5722;
+  font-weight: 600;
+}
+
+.highlight-word::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #ff7e00, #ff2900);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.highlight-word:hover::after {
+  transform: scaleX(1);
+}
+
+/* Food item interactive styling */
+.food-item {
+  position: relative;
+  font-weight: 600;
+  color: #ff5722;
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.food-item:hover {
+  text-decoration: underline;
+  background-color: rgba(255, 87, 34, 0.1);
+  border-radius: 4px;
+}
+
+/* Tooltip styling */
+.food-tooltip {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  max-width: 250px;
+}
+
+.tooltip-content {
+  transform-origin: top center;
+  animation: tooltipPop 0.2s ease-out forwards;
+}
+
+@keyframes tooltipPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Parallax container */
+.parallax-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.parallax-image {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: calc(100% + 40px);
+  height: calc(100% + 40px);
+  transition: transform 0.1s ease-out;
+}
+
+/* Image transition effect */
+.parallax-image img {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.overlay-text {
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.parallax-container:hover .overlay-text {
+  transform: translateY(0);
+}
+
+/* Food cards styling */
+.food-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 10px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.food-card::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 80%;
+  height: 3px;
+  background: linear-gradient(90deg, #ff7e00, #ff2900);
+  transition: transform 0.3s ease;
+  border-radius: 2px;
+}
+
+.food-card.active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.food-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.food-card.active {
+  background: linear-gradient(135deg, #ff7e00, #ff2900);
+}
+
+.food-card.active .food-icon,
+.food-card.active .food-name {
+  color: white;
+}
+
+.food-icon {
+  margin-bottom: 8px;
+  color: #ff5722;
+}
+
+.food-name {
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.food-description {
+  animation: fadeSlideUp 0.3s ease-out;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* CTA button styles */
+.cta-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.7s ease;
+}
+
+.cta-button:hover::after {
+  left: 100%;
+}
+
+/* Typewriter effect */
+.typewriter {
+  overflow: hidden;
+  border-right: 2px solid #FF5722;
+  white-space: nowrap;
+  animation: typing 3.5s steps(30, end) infinite,
+             blink-caret 0.75s step-end infinite;
+  display: inline-block;
+}
+
+@keyframes typing {
+  0% { width: 0 }
+  50% { width: 100% }
+  90% { width: 100% }
+  100% { width: 0 }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #FF5722 }
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-indicator.hidden {
+  opacity: 0;
+}
+
+.mouse {
+  width: 30px;
+  height: 50px;
+  border: 2px solid #ff5722;
+  border-radius: 15px;
+  margin: 0 auto 10px;
+  position: relative;
+}
+
+.wheel {
+  width: 4px;
+  height: 8px;
+  background: #ff5722;
+  border-radius: 2px;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: wheel 1.5s infinite;
+}
+
+@keyframes wheel {
+  0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+  100% { transform: translateX(-50%) translateY(20px); opacity: 0; }
+}
+
+.scroll-text {
+  color: #ff5722;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.why-us-container {
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.card-effect {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: all 0.3s ease;
+}
+
+.card-effect:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(31, 38, 135, 0.2);
+}
+
+.story-text {
+  position: relative;
+  line-height: 1.8;
+}
+
+.image-carousel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  object-fit: cover;
+}
+
+.carousel-image.active {
+  opacity: 1;
+  z-index: 10;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 20;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background-color: white;
+  transform: scale(1.2);
+}
+
+.highlight-text {
+  position: relative;
+  display: inline-block;
+}
+
+.highlight-text::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #ff7e00, #ff2900);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.highlight-text:hover::after {
+  transform: scaleX(1);
+}
+
+.feature-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff7e00, #ff2900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: white;
+  font-size: 24px;
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+}
+
+.gradient-text {
+  background: linear-gradient(to right, #ff7e00, #ff2900);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media screen and (max-width: 768px) {
+  .reverse-cols {
+    flex-direction: column-reverse;
+  }
 }
