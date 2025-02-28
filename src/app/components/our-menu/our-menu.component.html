@@ -1,62 +1,61 @@
 <section class="px-4 sm:px-6 lg:px-8 bg-customBackground py-8 sm:py-12 relative" id="menu">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-5 pattern-dots"></div>
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 opacity-5 pattern-dots"></div>
 
-    <div class="py-6 sm:py-8 flex flex-col max-w-7xl mx-auto relative">
-        <!-- Header section -->
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pb-8">
-            <h1 class="text-2xl sm:text-4xl font-bold relative">
-                Our Regular Menu Pack
-                <span class="absolute -bottom-2 left-0 w-1/2 h-1 bg-secondary rounded-full"></span>
-            </h1>
-        </div>
-
-        <!-- Categories -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 mb-8 mt-3">
-            <button *ngFor="let category of menuCategories"
-                [class]="'w-full px-6 py-2 rounded-full transition-all duration-300 ' + (selectedCategory === category ? 'bg-secondary text-white' : 'bg-white hover:bg-secondary hover:text-white border-2 border-secondary')"
-                (click)="selectCategory(category)">
-                {{ category }}
-            </button>
-        </div>
-
-        <!-- Cards Container -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div *ngFor="let item of filteredItems" class="card-container">
-                <div class="bg-white flex flex-col rounded-xl overflow-hidden group">
-                    <!-- Image with overlay -->
-                    <div class="relative w-full pt-[100%] overflow-hidden">
-                        <img [src]="item.ImageSrc" [alt]="item.title + ' image'"
-                            class="absolute top-0 left-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
-                        <div
-                            class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300">
-                        </div>
-                    </div>
-                    <!-- Content -->
-                    <div class="flex flex-col gap-4 items-center p-6">
-                        <h1 class="text-xl font-bold hover:text-secondary transition-colors duration-300">
-                            {{ item.title }}
-                        </h1>
-                        <div class="flex items-center gap-1">
-                            <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
-                                <mat-icon class="text-secondary">
-                                    {{ star <= item.rating ? 'star' : 'star_border' }} </mat-icon>
-                            </ng-container>
-                        </div>
-                        <p class="text-sm text-center text-gray-600">{{ item.description }}</p>
-                    </div>
-                    <!-- Price and Button -->
-                    <div class="flex items-center justify-between w-full px-6 py-4 mt-auto">
-                        <div class="text-2xl font-extrabold text-secondary">${{ item.price }}</div>
-                        <button (click)="addToCart(item)"
-                            class="group px-5 py-2 rounded-full bg-secondary text-white hover:bg-white hover:text-secondary border-2 border-secondary transition-all duration-300 flex items-center gap-2">
-                            <span>Add to Cart</span>
-                            <mat-icon
-                                class="transform group-hover:translate-x-1 transition-transform">shopping_cart</mat-icon>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="py-6 sm:py-8 flex flex-col max-w-7xl mx-auto relative">
+    <!-- Header section -->
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pb-8">
+      <h1 class="text-2xl sm:text-4xl font-bold relative text-center sm:text-left">
+        Our Regular Menu Pack
+        <span class="absolute -bottom-2 left-0 w-1/2 h-1 bg-secondary rounded-full"></span>
+      </h1>
     </div>
+
+    <!-- Categories -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 mb-8 mt-3">
+      <button *ngFor="let category of menuCategories"
+        [class]="'w-full px-6 py-2 rounded-full transition-all duration-300 ' + (selectedCategory === category ? 'bg-secondary text-white' : 'bg-white hover:bg-secondary hover:text-white border-2 border-secondary')"
+        (click)="selectCategory(category)">
+        {{ category }}
+      </button>
+    </div>
+
+    <!-- Cards Container -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div *ngFor="let item of filteredItems" class="card-container">
+        <div
+          class="bg-white flex flex-col rounded-xl overflow-hidden group shadow-md hover:shadow-lg transition-shadow duration-300">
+          <!-- Image with overlay -->
+          <div class="relative w-full pt-[100%] overflow-hidden">
+            <img [src]="item.ImageSrc" [alt]="item.title + ' image'"
+              class="absolute top-0 left-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+            <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300">
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex flex-col gap-4 items-center p-4 sm:p-6">
+            <h1 class="text-lg sm:text-xl font-bold hover:text-secondary transition-colors duration-300 text-center">
+              {{ item.title }}
+            </h1>
+            <div class="flex items-center gap-1">
+              <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                <mat-icon class="text-secondary">
+                  {{ star <= item.rating ? 'star' : 'star_border' }} </mat-icon>
+              </ng-container>
+            </div>
+            <p class="text-sm text-center text-gray-600">{{ item.description }}</p>
+          </div>
+          <!-- Price and Button -->
+          <div class="flex items-center justify-between w-full px-4 sm:px-6 py-4 mt-auto">
+            <div class="text-xl sm:text-2xl font-extrabold text-secondary">${{ item.price }}</div>
+            <button (click)="addToCart(item)"
+              class="group px-5 py-2 rounded-full bg-secondary text-white hover:bg-white hover:text-secondary border-2 border-secondary transition-all duration-300 flex items-center gap-2">
+              <span>Add to Cart</span>
+              <mat-icon class="transform group-hover:translate-x-1 transition-transform">shopping_cart</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
