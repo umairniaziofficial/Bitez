@@ -22,6 +22,11 @@ const userSchema = new Schema<IUser>({
         required: [true, 'Password is required'],
         minlength: [6, 'Password must be at least 6 characters']
     },
+    role: {
+        type: String,
+        default: 'user',
+        enum: ['user', 'admin']
+    }
 });
 
 userSchema.pre('save', async function (next) {

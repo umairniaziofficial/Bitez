@@ -1,13 +1,24 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { NotificationService } from './notification.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private tokenKey = 'authToken';
-  constructor(private http: HttpClient, private router: Router) { }
+  private roleKey = 'userRole';
+  private logoutTimer: any;
+  private roleChange = new Subject<string | null>();
+  
+  roleChanged$ = this.roleChange.asObservable();
+  
+  constructor(
+    private http: HttpClient, 
+    private router: Router,
+    private notificationService: NotificationService
+  ) { }
 
   register(email: string, password: string): Observable<any> {
     return this.http.post('http://localhost:3000/register', {
@@ -24,28 +35,62 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return new Observable((subscriber) => {
       this.http
-        .post<{ token: string }>('http://localhost:3000/login', {
+        .post<{ token: string, role: string }>('http://localhost:3000/login', {
           email,
           password,
         })
         .subscribe({
           next: (response) => {
             localStorage.setItem(this.tokenKey, response.token);
-            this.router.navigate(['/dashbaord']);
+            localStorage.setItem(this.roleKey, response.role || 'user');
+            
+            // Show login success notification
+            this.notificationService.show(
+              `Successfully logged in as ${response.role || 'user'}`,
+              'success'
+            );
+            
+            this.roleChange.next(response.role || 'user');
+            
+            // Redirect based on role
+            if (response.role === 'admin') {
+              this.router.navigate(['/dashboard']);
+            } else {
+              this.router.navigate(['/']);
+            }
+            
             subscriber.next(response);
             subscriber.complete();
           },
           error: (error) => {
             console.error(error);
+            this.notificationService.show(
+              error.error?.error || 'Login failed',
+              'error'
+            );
             subscriber.error(error);
           },
         });
     });
   }
 
-  logout() {
+  logout(message?: string) {
+    if (message) {
+      this.notificationService.show(message, 'info');
+    }
+    
     localStorage.removeItem(this.tokenKey);
-    this.router.navigate(['/login']);
+    localStorage.removeItem(this.roleKey);
+    this.roleChange.next(null);
+    
+    setTimeout(() => {
+      this.router.navigate(['/login']);
+    }, 1500);
+  }
+
+  isAdmin(): boolean {
+    const role = localStorage.getItem(this.roleKey);
+    return role === 'admin';
   }
 
   getToken(): string | null {
@@ -56,3 +101,21 @@ export class AuthService {
     return !!this.getToken();
   }
 }
+
+// Create a functional route guard for Angular 19
+export const adminGuard = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+  
+  if (!authService.isAuthenticated()) {
+    router.navigate(['/login']);
+    return false;
+  }
+  
+  if (!authService.isAdmin()) {
+    router.navigate(['/']);
+    return false;
+  }
+  
+  return true;
+};

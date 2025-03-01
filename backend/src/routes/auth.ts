@@ -55,9 +55,10 @@ router.post('/login', async (req, res) => {
             throw new Error('Invalid email or password');
         }
         const token = jwt.sign({
-            email
+            email,
+            role: user.role
         }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
-        res.status(200).json({ token });
+        res.status(200).json({ token, role: user.role });
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
         res.status(400).json({ error: errorMessage });
