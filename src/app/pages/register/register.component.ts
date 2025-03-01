@@ -1,18 +1,42 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  standalone: true,
+  imports: [CommonModule, FormsModule]
 })
 export class RegisterComponent {
-  email = '';
-  password = '';
-  constructor(private authService: AuthService) { };
+  fullName: string = '';
+  email: string = '';
+  password: string = '';
+  errorMessage: string = '';
+  isLoading: boolean = false;
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    this.authService.register(this.email, this.password);
+    if (!this.email || !this.password || !this.fullName) {
+      this.errorMessage = 'Please fill in all fields';
+      return;
+    }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.authService.register(this.email, this.password).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.errorMessage = error;
+      }
+    });
   }
 }

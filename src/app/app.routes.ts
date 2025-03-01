@@ -1,9 +1,10 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { DefaultLayoutComponent } from './layout/default-layout/default-layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { NgModule } from '@angular/core';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { authGuard, loggedInGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -11,24 +12,23 @@ export const routes: Routes = [
     component: DefaultLayoutComponent,
     children: [
       {
-        path: '',
-        component: HomeComponent
+        path: '', component: HomeComponent
       },
       {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        canActivate: [loggedInGuard]
       },
       {
         path: 'register',
-        component: RegisterComponent
+        component: RegisterComponent,
+        canActivate: [loggedInGuard]
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        canActivate: [authGuard]
       }
-    ]
-  }
+    ],
+  },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
-

@@ -1,34 +1,27 @@
-import dotenv from 'dotenv';
+import { config } from './config';
 import cors from 'cors';
 import express, { Request, Response } from 'express';
 import connectToDatabase from './lib/db';
+import authRoutes from './routes/auth';
 
-// Load environment variables early
-dotenv.config();
-
-// Constants
-const PORT = process.env.PORT || 5000;
-
-// Initialize express app
+const PORT = config.server.port;
 const app = express();
 
-// Middleware setup
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Health check route
+// Routes
+app.use(authRoutes);
+
 app.get('/', (_req: Request, res: Response) => {
   res.json({ status: 'healthy', message: 'API is running' });
 });
 
-// Server startup function
 async function startServer() {
   try {
-    // Connect to MongoDB
     await connectToDatabase();
     console.log('Connected to MongoDB');
-
-    // Start server
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });
@@ -38,11 +31,9 @@ async function startServer() {
   }
 }
 
-// Graceful shutdown
 process.on('SIGTERM', () => {
   console.log('🛑 Server shutting down');
   process.exit(0);
 });
 
-// Start the server
 startServer();
