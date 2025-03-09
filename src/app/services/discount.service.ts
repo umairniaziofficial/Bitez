@@ -6,7 +6,7 @@ import { Discount } from '../models/discount.model';
   providedIn: 'root'
 })
 export class DiscountService {
-  
+
   private mockDiscounts: Discount[] = [
     {
       id: '1',

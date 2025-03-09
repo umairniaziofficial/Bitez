@@ -1,15 +1,13 @@
 <div class="hero-section min-h-screen flex items-center p-6 md:p-12 w-full relative overflow-hidden"
-    [ngClass]="{'scroll-active': scrollActive}">
-    <!-- Animated background elements -->
+    [ngClass]="{ 'scroll-active': scrollActive }">
     <div class="animated-bg">
         <div class="floating-element" *ngFor="let item of floatingFoodIcons; let i = index" [style.left.%]="item.x"
             [style.top.%]="item.y" [style.animation-delay]="i * 0.5 + 's'">
-            <i class="material-icons" [ngClass]="item.color">{{item.icon}}</i>
+            <i class="material-icons" [ngClass]="item.color">{{ item.icon }}</i>
         </div>
     </div>
 
     <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 p-4 w-full max-w-7xl mx-auto">
-        <!-- Left Section -->
         <div class="w-full lg:w-1/2 flex flex-col items-center lg:items-start justify-center space-y-6"
             [@fadeInUp]="scrollActive ? 'visible' : 'hidden'">
             <div class="text-center lg:text-left transform hover:scale-105 transition-transform duration-300">
@@ -23,67 +21,82 @@
             </div>
             <p
                 class="story-paragraph text-base sm:text-lg text-gray-600 text-center lg:text-left max-w-2xl transition-colors duration-300 backdrop-blur-sm bg-white/30 p-6 rounded-xl">
-                Welcome to <span class="highlight-word">Bitez</span>, where every bite is a burst of flavor and every
-                meal is crafted with passion!
+                Welcome to <span class="highlight-word">Bitez</span>, where every bite
+                is a burst of flavor and every meal is crafted with passion!
                 <span class="story-reveal" [class.visible]="scrollActive">
-                    Our journey began with a simple yet powerful vision—to bring people together over delicious,
-                    high-quality fast food. From the rich, aromatic <span class="food-item"
-                        (mouseenter)="showFoodTooltip('biryani', $event)" (mouseleave)="hideTooltip()">Biryani</span> to
-                    the cheesy delight of
+                    Our journey began with a simple yet powerful vision—to bring people
+                    together over delicious, high-quality fast food. From the rich,
+                    aromatic
+                    <span class="food-item" (mouseenter)="showFoodTooltip('biryani', $event)"
+                        (mouseleave)="hideTooltip()">Biryani</span>
+                    to the cheesy delight of
                     <span class="food-item" (mouseenter)="showFoodTooltip('pizza', $event)"
-                        (mouseleave)="hideTooltip()">Pizza</span>, from
-                    mouthwatering <span class="food-item" (mouseenter)="showFoodTooltip('burger', $event)"
-                        (mouseleave)="hideTooltip()">Burgers</span> to perfectly seasoned
+                        (mouseleave)="hideTooltip()">Pizza</span>, from mouthwatering
+                    <span class="food-item" (mouseenter)="showFoodTooltip('burger', $event)"
+                        (mouseleave)="hideTooltip()">Burgers</span>
+                    to perfectly seasoned
                     <span class="food-item" (mouseenter)="showFoodTooltip('noodles', $event)"
-                        (mouseleave)="hideTooltip()">Noodles</span>, we serve up a variety of
-                    flavors that satisfy every craving.
+                        (mouseleave)="hideTooltip()">Noodles</span>, we serve up a variety of flavors that satisfy every
+                    craving.
                 </span>
                 <span class="story-reveal" [class.visible]="scrollActive">
-                    At Bitez, we believe food is more than just fuel; it's an <span
-                        class="highlight-word">experience</span>. That's why we use only the
-                    freshest ingredients, authentic recipes, and expert techniques to create dishes that keep you coming
-                    back for more.
+                    At Bitez, we believe food is more than just fuel; it's an
+                    <span class="highlight-word">experience</span>. That's why we use only
+                    the freshest ingredients, authentic recipes, and expert techniques to
+                    create dishes that keep you coming back for more.
                 </span>
             </p>
-            <button class="cta-button px-8 py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-full font-medium 
-                transition-all hover:shadow-lg hover:scale-105 flex items-center" (click)="scrollToStory()">
+            <button
+                class="cta-button px-8 py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-full font-medium transition-all hover:shadow-lg hover:scale-105 flex items-center"
+                (click)="scrollToStory()">
                 <span class="mr-2">Read More</span>
                 <i class="material-icons">arrow_downward</i>
             </button>
         </div>
 
-        <!-- Right Section -->
         <div class="w-full lg:w-1/2 flex flex-col items-center justify-center gap-4 relative"
             [@slideInRight]="scrollActive ? 'visible' : 'hidden'">
-            <!-- Food image gallery with parallax -->
             <div class="parallax-container h-96 w-full relative overflow-hidden rounded-xl shadow-2xl"
                 (mousemove)="handleParallax($event)">
-                <div class="parallax-image" [style.transform]="'translate(' + parallaxX + 'px, ' + parallaxY + 'px)'">
-                    <img [src]="currentFoodImage"
-                        [ngClass]="{'opacity-0': isImageChanging, 'opacity-100': !isImageChanging}"
-                        class="w-full h-full object-cover transition-opacity duration-300" alt="Food Image">
+                <div class="parallax-image" [style.transform]="
+            'translate(' + parallaxX + 'px, ' + parallaxY + 'px)'
+          ">
+                    <img [src]="currentFoodImage" [ngClass]="{
+              'opacity-0': isImageChanging,
+              'opacity-100': !isImageChanging
+            }" class="w-full h-full object-cover transition-opacity duration-300" alt="Food Image" />
                 </div>
                 <div class="overlay-text p-6 absolute bottom-0 left-0 w-full text-white">
-                    <h3 class="text-2xl font-bold">{{selectedFoodIndex !== null ? foodTypes[selectedFoodIndex].name :
-                        'Passion in Every Plate'}}</h3>
-                    <p>{{selectedFoodIndex !== null ? foodTypes[selectedFoodIndex].description : 'Crafting unforgettable
-                        food experiences'}}</p>
+                    <h3 class="text-2xl font-bold">
+                        {{
+                        selectedFoodIndex !== null
+                        ? foodTypes[selectedFoodIndex].name
+                        : "Passion in Every Plate"
+                        }}
+                    </h3>
+                    <p>
+                        {{
+                        selectedFoodIndex !== null
+                        ? foodTypes[selectedFoodIndex].description
+                        : "Crafting unforgettable
+                        food experiences"
+                        }}
+                    </p>
                 </div>
             </div>
 
-            <!-- Interactive food cards -->
             <div class="grid grid-cols-3 gap-3 w-full mt-4">
                 <div *ngFor="let foodType of foodTypes; let i = index" class="food-card"
                     [class.active]="selectedFoodIndex === i" (click)="selectFood(i)">
                     <div class="food-icon">
-                        <i class="material-icons">{{foodType.icon}}</i>
+                        <i class="material-icons">{{ foodType.icon }}</i>
                     </div>
-                    <p class="food-name">{{foodType.name}}</p>
+                    <p class="food-name">{{ foodType.name }}</p>
                 </div>
             </div>
             <div *ngIf="selectedFoodIndex !== null"
                 class="food-description mt-3 p-4 w-full bg-white/80 backdrop-blur-sm rounded-lg" [@fadeIn]>
-                <p>{{foodTypes[selectedFoodIndex].description}}</p>
+                <p>{{ foodTypes[selectedFoodIndex].description }}</p>
             </div>
         </div>
     </div>

@@ -1,0 +1,64 @@
+<div *ngIf="isVisible" class="fixed inset-0 z-50 overflow-hidden flex justify-end bg-black bg-opacity-50"
+    (click)="closeModal()" @fadeInOut>
+    <div class="cart-panel w-full sm:w-96 bg-white shadow-xl h-full flex flex-col transform"
+        [class.slide-in]="isVisible" [class.slide-out]="!isVisible" (click)="stopPropagation($event)" @slideInOut>
+        <div class="flex justify-between items-center bg-black text-white p-4">
+            <h3 class="text-lg font-semibold flex items-center">
+                <mat-icon class="mr-2">shopping_cart</mat-icon>
+                Your Cart
+            </h3>
+            <button (click)="closeModal()" class="text-white hover:text-gray-200">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+        <div class="flex-grow p-4 overflow-y-auto">
+            <div *ngIf="cartItems.length === 0" class="text-center py-8">
+                <mat-icon class="text-gray-300 text-4xl mb-2">shopping_cart</mat-icon>
+                <p class="text-gray-500">Your cart is empty</p>
+            </div>
+
+            <div *ngIf="cartItems.length > 0">
+                <div *ngFor="let item of cartItems"
+                    class="flex items-center py-3 border-b border-gray-100 last:border-0 relative group">
+                    <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 mr-4">
+                        <img [src]="item.imgUrl" [alt]="item.name" class="h-full w-full object-cover object-center">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-sm font-medium text-gray-900 truncate">{{ item.name }}</h4>
+                        <p class="text-sm text-gray-500">{{ item.quantity }} × ${{ item.price.toFixed(2) }}</p>
+                    </div>
+                    <div class="text-sm font-medium text-secondary">${{ (item.price * item.quantity).toFixed(2) }}</div>
+
+                    <button (click)="removeItem(item)"
+                        class="absolute -top-1 -right-1 bg-white rounded-full shadow p-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-100">
+                        <mat-icon class="text-red-500"
+                            style="font-size: 18px; width: 18px; height: 18px;">close</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-200 bg-gray-50 p-4">
+            <div class="flex justify-between items-center mb-4">
+                <span class="font-medium text-gray-900">Subtotal</span>
+                <span class="text-xl font-bold text-secondary">${{ cartTotal.toFixed(2) }}</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <a routerLink="/cart"
+                    class="py-2 px-4 bg-gray-200 text-gray-800 rounded text-center font-medium hover:bg-gray-300 transition-colors flex items-center justify-center"
+                    (click)="viewCart()">
+                    <mat-icon class="mr-1">shopping_cart</mat-icon>
+                    View Cart
+                </a>
+                <a routerLink="/checkout"
+                    class="py-2 px-4 bg-secondary text-white rounded text-center font-medium hover:bg-opacity-90 transition-colors flex items-center justify-center"
+                    (click)="checkout()">
+                    <mat-icon class="mr-1">payment</mat-icon>
+                    Checkout
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

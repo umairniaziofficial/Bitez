@@ -16,55 +16,59 @@ interface DishItem {
   standalone: true,
   imports: [MatIconModule, NgFor, NgIf],
   templateUrl: './popular-dishes.component.html',
-  styleUrls: ['./popular-dishes.component.css']
+  styleUrls: ['./popular-dishes.component.css'],
 })
 export class PopularDishesComponent implements OnInit {
   public cardsData: DishItem[] = [
     {
-      title: "Burger",
+      title: 'Burger',
       rating: 4,
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque eligendi possimus sed vel, labore neque id harum enim suscipit unde!",
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque eligendi possimus sed vel, labore neque id harum enim suscipit unde!',
       price: 10,
-      ImageSrc: "/Burger.png"
+      ImageSrc: '/Burger.png',
     },
     {
-      title: "Pizza",
+      title: 'Pizza',
       rating: 5,
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque eligendi possimus sed vel, labore neque id harum enim suscipit unde!",
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque eligendi possimus sed vel, labore neque id harum enim suscipit unde!',
       price: 15,
-      ImageSrc: "/Pizza.png"
+      ImageSrc: '/Pizza.png',
     },
     {
-      title: "Steak",
+      title: 'Steak',
       rating: 3,
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque eligendi possimus sed vel, labore neque id harum enim suscipit unde!",
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque eligendi possimus sed vel, labore neque id harum enim suscipit unde!',
       price: 20,
-      ImageSrc: "/Steak.png"
+      ImageSrc: '/Steak.png',
     },
     {
-      title: "Beef Veggie",
+      title: 'Beef Veggie',
       rating: 4,
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque eligendi possimus sed vel, labore neque id harum enim suscipit unde!",
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque eligendi possimus sed vel, labore neque id harum enim suscipit unde!',
       price: 12,
-      ImageSrc: "/BeefVeg.png"
+      ImageSrc: '/BeefVeg.png',
     },
     {
-      title: "Briyani",
+      title: 'Briyani',
       rating: 5,
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque eligendi possimus sed vel, labore neque id harum enim suscipit unde!",
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque eligendi possimus sed vel, labore neque id harum enim suscipit unde!',
       price: 8,
-      ImageSrc: "/Briyani.png"
-    }
+      ImageSrc: '/Briyani.png',
+    },
   ];
 
-  public visibleItems = 4; // Desktop view shows 4 items
-  public mobileVisibleItems = 3; // Mobile initially shows 3 items
+  public visibleItems = 4;
+  public mobileVisibleItems = 3;
   public isMobile = false;
   public offset = 0;
 
-  // Add new property for single item width
-  private readonly singleItemWidth = 25; // 25% width per item
-  private readonly gapWidth = 1; // 1% gap between items
+  private readonly singleItemWidth = 25;
+  private readonly gapWidth = 1;
 
   private tempRating: number | null = null;
 
@@ -86,20 +90,21 @@ export class PopularDishesComponent implements OnInit {
   }
 
   nextSlide() {
-    const maxOffset = -((this.cardsData.length - this.visibleItems) * (this.singleItemWidth + this.gapWidth));
+    const maxOffset = -(
+      (this.cardsData.length - this.visibleItems) *
+      (this.singleItemWidth + this.gapWidth)
+    );
     if (this.offset > maxOffset) {
-      // Move by single item width instead of full row
-      this.offset -= (this.singleItemWidth + this.gapWidth);
-      // Ensure we don't scroll beyond last item
+      this.offset -= this.singleItemWidth + this.gapWidth;
+
       this.offset = Math.max(this.offset, maxOffset);
     }
   }
 
   previousSlide() {
     if (this.offset < 0) {
-      // Move by single item width instead of full row
-      this.offset += (this.singleItemWidth + this.gapWidth);
-      // Ensure we don't scroll beyond first item
+      this.offset += this.singleItemWidth + this.gapWidth;
+
       this.offset = Math.min(this.offset, 0);
     }
   }
@@ -117,13 +122,12 @@ export class PopularDishesComponent implements OnInit {
   }
 
   get visibleCards() {
-    return this.isMobile 
+    return this.isMobile
       ? this.cardsData.slice(0, this.mobileVisibleItems)
       : this.cardsData;
   }
 
   openQuickView(item: DishItem) {
-    // Implement quick view logic here
     console.log('Quick view:', item);
   }
 
@@ -147,6 +151,5 @@ export class PopularDishesComponent implements OnInit {
 
   addToCart(item: DishItem) {
     console.log('Added to cart:', item);
-    // Implement cart logic here
   }
 }

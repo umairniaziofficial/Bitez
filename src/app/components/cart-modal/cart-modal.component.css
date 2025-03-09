@@ -1,0 +1,40 @@
+:host {
+  display: contents;
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
+.slide-in {
+  transform: translateX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.slide-out {
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+@media (max-width: 640px) {
+  .cart-panel {
+    width: 90vw;
+  }
+}
+
+/* Styles for the cart item hover effect */
+.cart-panel .group {
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.cart-panel .group:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Make remove button always visible on mobile */
+@media (max-width: 768px) {
+  .cart-panel .group button {
+    opacity: 1;
+  }
+}

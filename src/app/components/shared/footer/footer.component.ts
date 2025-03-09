@@ -41,7 +41,6 @@ export class FooterComponent implements OnInit {
         { text: 'Super Chef', url: '#' }
       ]
     },
-    // Add other sections similarly
   ];
 
   socialLinks = [
@@ -56,7 +55,6 @@ export class FooterComponent implements OnInit {
 
     this.isSubscribing = true;
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       this.showSuccessMessage = true;
       this.email = '';

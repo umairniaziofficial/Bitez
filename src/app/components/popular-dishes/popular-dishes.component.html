@@ -1,15 +1,12 @@
 <section class="px-4 sm:px-6 lg:px-8 bg-customBackground py-8 sm:py-12 relative">
-    <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-5 pattern-dots"></div>
 
     <div class="py-6 sm:py-8 flex flex-col max-w-7xl mx-auto relative">
-        <!-- Header section -->
         <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pb-8">
             <h1 class="text-2xl sm:text-4xl font-bold relative">
                 Popular Dishes
                 <span class="absolute -bottom-2 left-0 w-1/2 h-1 bg-secondary rounded-full"></span>
             </h1>
-            <!-- Desktop Navigation Arrows -->
             <div class="hidden md:flex gap-4">
                 <button (click)="previousSlide()"
                     class="group p-3 border-2 border-secondary hover:scale-110 hover:bg-secondary flex justify-center items-center rounded-full transition-all duration-300">
@@ -22,27 +19,21 @@
             </div>
         </div>
 
-        <!-- Cards Container -->
         <div class="relative overflow-hidden w-full">
-            <!-- Desktop Sliding View -->
             <div *ngIf="!isMobile" class="flex gap-[1%] w-full transition-transform duration-500 ease-out"
                 [style.transform]="'translateX(' + offset + '%)'">
                 <div *ngFor="let item of cardsData"
                     class="flex-none w-[24%] transform hover:scale-[1.02] transition-all duration-300">
                     <div class="card-container h-full relative group">
-                        <!-- Quick View Button -->
                         <button (click)="openQuickView(item)"
                             class="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 bg-white p-2 rounded-full shadow-lg transition-all duration-300 hover:bg-secondary hover:text-white">
                             <mat-icon>visibility</mat-icon>
                         </button>
-                        <!-- Wishlist Button -->
                         <button (click)="toggleWishlist(item)"
                             class="absolute top-4 left-4 z-10 opacity-0 group-hover:opacity-100 bg-white p-2 rounded-full shadow-lg transition-all duration-300 hover:text-red-500">
                             <mat-icon>{{ item.isWishlisted ? 'favorite' : 'favorite_border' }}</mat-icon>
                         </button>
-                        <!-- Card Content -->
                         <div class="bg-white flex flex-col rounded-xl overflow-hidden transition-all duration-300">
-                            <!-- Image with overlay -->
                             <div class="relative w-full pt-[100%] overflow-hidden">
                                 <img [src]="item.ImageSrc" [alt]="item.title + ' image'"
                                     class="absolute top-0 left-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
@@ -50,11 +41,9 @@
                                     class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300">
                                 </div>
                             </div>
-                            <!-- Content -->
                             <div class="flex flex-col gap-4 items-center p-6">
                                 <h1 class="text-xl font-bold hover:text-secondary transition-colors duration-300">{{
                                     item.title }}</h1>
-                                <!-- Interactive Rating -->
                                 <div class="flex items-center gap-1">
                                     <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
                                         <mat-icon
@@ -66,7 +55,6 @@
                                 </div>
                                 <p class="text-sm text-center text-gray-600">{{ item.description }}</p>
                             </div>
-                            <!-- Price and Button -->
                             <div class="flex items-center justify-between w-full px-6 py-4 mt-auto">
                                 <div class="text-2xl font-extrabold text-secondary">${{ item.price }}</div>
                                 <button (click)="addToCart(item)"
@@ -81,19 +69,14 @@
                 </div>
             </div>
 
-            <!-- Mobile Grid View -->
             <div *ngIf="isMobile" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <!-- Similar card structure as desktop but with adjusted styles -->
                 <div *ngFor="let item of visibleCards" class="card-container">
-                    <!-- Card Content -->
                     <div
                         class="bg-white flex flex-col shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                        <!-- Image -->
                         <div class="relative w-full pt-[100%]">
                             <img [src]="item.ImageSrc" [alt]="item.title + ' image'"
                                 class="absolute top-0 left-0 w-full h-full object-cover">
                         </div>
-                        <!-- Content -->
                         <div class="flex flex-col gap-4 items-center p-4">
                             <h1 class="text-xl font-bold">{{ item.title }}</h1>
                             <div class="flex items-center">
@@ -104,7 +87,6 @@
                             </div>
                             <p class="text-xs text-center">{{ item.description }}</p>
                         </div>
-                        <!-- Price and Button -->
                         <div class="flex items-center justify-between w-full px-4 py-4 mt-auto">
                             <div class="text-xl font-extrabold">${{ item.price }}</div>
                             <button
@@ -117,7 +99,6 @@
             </div>
         </div>
 
-        <!-- Mobile Load More Button -->
         <div *ngIf="showLoadMore" class="mt-8 flex justify-center">
             <button (click)="loadMore()"
                 class="group px-8 py-3 bg-secondary text-white rounded-full hover:bg-white hover:text-secondary border-2 border-secondary transition-all duration-300 flex items-center gap-2">
@@ -128,7 +109,6 @@
     </div>
 </section>
 
-<!-- Loading Skeleton -->
 <ng-template #loading>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         <div *ngFor="let i of [1,2,3,4]" class="animate-pulse">

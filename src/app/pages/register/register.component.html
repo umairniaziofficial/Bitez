@@ -6,7 +6,6 @@
     </div>
 
     <form class="space-y-6" (ngSubmit)="onSubmit()" #registerForm="ngForm">
-      <!-- Show error message if exists -->
       <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
         <span class="block sm:inline">{{ errorMessage }}</span>
       </div>

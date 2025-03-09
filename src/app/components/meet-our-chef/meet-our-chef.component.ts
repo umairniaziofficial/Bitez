@@ -18,7 +18,6 @@ interface IChef {
   standalone: true,
 })
 export class MeetOurChefComponent implements OnInit, OnDestroy {
-  // Make Math available to the template
   public Math = Math;
 
   public chefsData: IChef[] = [
@@ -69,7 +68,7 @@ export class MeetOurChefComponent implements OnInit, OnDestroy {
   public readonly gapWidth = 1;
   private readonly tabletBreakpoint = 1024;
   private readonly mobileBreakpoint = 768;
-  private readonly autoplaySpeed = 5000; // 5 seconds
+  private readonly autoplaySpeed = 5000; 
 
   constructor() {
     this.resizeObserver = new ResizeObserver(() => this.checkScreenSize());

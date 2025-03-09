@@ -1,0 +1,8 @@
+/* Custom styles for cart component */
+.cart-item {
+  transition: background-color 0.2s;
+}
+
+.cart-item:hover {
+  background-color: rgba(0,0,0,0.02);
+}

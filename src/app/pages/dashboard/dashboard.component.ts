@@ -3,44 +3,64 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-}
+import { ProductServiceService, Product } from '../../services/product-service.service';
+import { OrderServiceService, Order } from '../../services/order-service.service';
+import { HttpClientModule } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MatIconModule, DecimalPipe],
-  templateUrl: './dashboard.component.html'
+  imports: [CommonModule, MatIconModule, DecimalPipe, HttpClientModule],
+  templateUrl: './dashboard.component.html',
+  providers: [ProductServiceService, OrderServiceService]
 })
 export class DashboardComponent implements OnInit {
   isAdmin = false;
   countdown = 3;
   products: Product[] = [];
+  orders: Order[] = [];
+  isLoading = true;
+  error = '';
+  
+  
+  totalEarnings = 0;
+  pendingOrdersCount = 0;
+  processingOrdersCount = 0;
+  deliveredOrdersCount = 0;
+  cancelledOrdersCount = 0;
 
   public demoData = [
     {
       title: "Products",
-      total: 10,
+      total: 0,
       icon: "inventory_2",
+      color: "blue"
     },
     {
       title: "Orders",
-      total: 5,
+      total: 0,
       icon: "shopping_cart",
+      color: "yellow"
     },
     {
       title: "Earnings",
-      total: 1000,
+      total: 0,
       icon: "payments",
-    },
+      color: "green",
+      isCurrency: true
+    }
   ]
 
-  constructor(private authService: AuthService, private router: Router) { }
+  
+  recentOrders: Order[] = [];
+
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    private productService: ProductServiceService,
+    private orderService: OrderServiceService
+  ) { }
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
@@ -53,35 +73,61 @@ export class DashboardComponent implements OnInit {
           this.authService.logout('You need admin privileges to access the dashboard.');
         }
       }, 1000);
+    } else {
+      this.loadDashboardData();
     }
+  }
 
-    // Initialize mock products
-    this.products = [
-      {
-        id: 1,
-        name: "Classic Burger",
-        price: 9.99,
-        image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
+  loadDashboardData() {
+    this.isLoading = true;
+    this.error = '';
+    
+    
+    forkJoin({
+      products: this.productService.getProducts(),
+      orders: this.orderService.getOrders()
+    }).subscribe({
+      next: (results) => {
+        this.products = results.products;
+        this.orders = results.orders;
+        
+        
+        this.processOrdersData();
+        this.updateDashboardStats();
+        
+        this.isLoading = false;
       },
-      {
-        id: 2,
-        name: "Veggie Pizza",
-        price: 12.99,
-        image: "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
-      },
-      {
-        id: 3,
-        name: "Chicken Salad",
-        price: 8.50,
-        image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
-      },
-      {
-        id: 4,
-        name: "Chocolate Cake",
-        price: 5.99,
-        image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
+      error: (err) => {
+        console.error('Error fetching dashboard data:', err);
+        this.error = 'Failed to load dashboard data. Please try again later.';
+        this.isLoading = false;
       }
-    ];
+    });
+  }
+
+  processOrdersData() {
+    
+    this.totalEarnings = this.orders
+      .filter(order => order.status === 'Delivered')
+      .reduce((sum, order) => sum + order.total, 0);
+    
+    
+    this.pendingOrdersCount = this.orders.filter(o => o.status === 'Pending').length;
+    this.processingOrdersCount = this.orders.filter(o => o.status === 'Processing').length;
+    this.deliveredOrdersCount = this.orders.filter(o => o.status === 'Delivered').length;
+    this.cancelledOrdersCount = this.orders.filter(o => o.status === 'Cancelled').length;
+    
+    
+    this.recentOrders = [...this.orders]
+      .sort((a, b) => new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime())
+      .slice(0, 5);
+  }
+
+  updateDashboardStats() {
+    
+    this.demoData[0].total = this.products.length;
+    this.demoData[1].total = this.orders.length;
+    this.demoData[2].total = this.totalEarnings;
   }
 
   onLogout() {
@@ -90,16 +136,84 @@ export class DashboardComponent implements OnInit {
   }
 
   onEditProduct(product: Product): void {
-    // Placeholder for edit functionality
-    console.log('Editing product:', product);
-    // This would typically open a modal or navigate to an edit page
+    if (product._id) {
+      this.router.navigate(['/dashboard/edit-product', product._id]);
+    }
   }
 
   onDeleteProduct(product: Product): void {
-    // Placeholder for delete functionality
-    console.log('Deleting product:', product);
+    if (!product._id) return;
+    
     if (confirm(`Are you sure you want to delete ${product.name}?`)) {
-      this.products = this.products.filter(p => p.id !== product.id);
+      this.productService.deleteProduct(product._id).subscribe({
+        next: () => {
+          this.products = this.products.filter(p => p._id !== product._id);
+          
+          this.updateDashboardStats();
+        },
+        error: (err) => {
+          console.error('Error deleting product:', err);
+          alert('Failed to delete product. Please try again later.');
+        }
+      });
     }
+  }
+
+  viewOrder(order: Order) {
+    
+    if (order._id) {
+      this.router.navigate(['/dashboard/view-order', order._id]);
+    }
+  }
+
+  
+  getStatusColorClass(status: string): string {
+    switch (status) {
+      case 'Pending': return 'bg-blue-100 text-blue-800';
+      case 'Processing': return 'bg-yellow-100 text-yellow-800';
+      case 'Delivered': return 'bg-green-100 text-green-800';
+      case 'Cancelled': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  }
+
+  
+  getStatusIcon(status: string): string {
+    switch (status) {
+      case 'Pending': return 'pending';
+      case 'Processing': return 'sync';
+      case 'Delivered': return 'check_circle';
+      case 'Cancelled': return 'cancel';
+      default: return 'help';
+    }
+  }
+
+  
+  getFormattedDate(date: Date): string {
+    return new Date(date).toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    });
+  }
+
+  
+  navigateToAddProduct() {
+    this.router.navigate(['/dashboard/add-product']);
+  }
+
+  
+  navigateToAddOrder() {
+    this.router.navigate(['/dashboard/add-order']);
+  }
+
+  
+  navigateToProducts() {
+    this.router.navigate(['/dashboard/products']);
+  }
+
+  
+  navigateToOrders() {
+    this.router.navigate(['/dashboard/orders']);
   }
 }

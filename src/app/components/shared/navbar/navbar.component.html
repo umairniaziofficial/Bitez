@@ -1,7 +1,6 @@
 <div class="navbar-wrapper w-full fixed top-0 left-0 z-40 transition-all duration-300"
   [ngClass]="{ 'scrolled-nav': isScrolled }">
   <div class="max-w-5xl mx-auto relative flex justify-between items-center w-full px-4 py-4">
-    <!-- Mobile Menu Button -->
     <button class="lg:hidden focus:outline-none transition-transform hover:scale-110" (click)="toggleMenu()"
       aria-label="Toggle menu">
       <svg *ngIf="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -10,7 +9,6 @@
       </svg>
     </button>
 
-    <!-- Left Nav Links -->
     <div class="hidden lg:flex space-x-6 w-1/3 justify-end pr-4">
       <a class="nav-link relative" [ngClass]="{ active: activeLink === 'home' }"
         (click)="scrollToSection('home', $event)">Home</a>
@@ -20,7 +18,6 @@
         (click)="scrollToSection('about', $event)">About</a>
     </div>
 
-    <!-- Center Logo -->
     <div
       class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 logo-container transition-all duration-300"
       [ngClass]="{ 'logo-scrolled': isScrolled }">
@@ -30,7 +27,6 @@
       </div>
     </div>
 
-    <!-- Right Nav Links -->
     <div class="hidden lg:flex space-x-6 w-1/3 pl-4">
       <a class="nav-link relative" [ngClass]="{ active: activeLink === 'chefs' }"
         (click)="scrollToSection('chefs', $event)">Chefs</a>
@@ -38,7 +34,6 @@
         (click)="scrollToSection('contact', $event)">Contact</a>
     </div>
 
-    <!-- Mobile Menu Overlay -->
     <div class="fixed inset-0 bg-black bg-opacity-50 lg:hidden transition-opacity duration-300 z-10" [ngClass]="{
         'opacity-100 visible': isMenuOpen,
         'opacity-0 invisible': !isMenuOpen
@@ -47,7 +42,6 @@
           'translate-x-0': isMenuOpen,
           '-translate-x-full': !isMenuOpen
         }" (click)="$event.stopPropagation()">
-        <!-- Close Button -->
         <div class="flex justify-end mb-6">
           <button class="focus:outline-none hover:text-primary transition-colors" (click)="toggleMenu()">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -57,12 +51,10 @@
           </button>
         </div>
 
-        <!-- Mobile Logo -->
         <div class="flex justify-center mb-8">
           <img src="/Logo.svg" alt="Logo" class="w-16" />
         </div>
 
-        <!-- Mobile Links -->
         <div class="flex flex-col space-y-4">
           <a class="mobile-nav-link" [ngClass]="{ active: activeLink === 'home' }"
             (click)="scrollToSection('home', $event); toggleMenu()">Home</a>
@@ -76,7 +68,6 @@
             (click)="scrollToSection('contact', $event); toggleMenu()">Contact</a>
         </div>
 
-        <!-- Social Media Icons -->
         <div class="flex justify-center space-x-4 mt-8">
           <a class="social-icon" aria-label="Facebook">
             <svg width="24" height="24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -102,5 +93,4 @@
   </div>
 </div>
 
-<!-- Spacer to prevent content from hiding under navbar -->
 <div class="navbar-spacer"></div>

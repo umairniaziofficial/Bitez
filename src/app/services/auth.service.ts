@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, throwError, Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { NotificationService } from './notification.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -14,21 +15,31 @@ export class AuthService {
   private roleChange = new Subject<string | null>();
 
   roleChanged$ = this.roleChange.asObservable();
+  private apiUrl = `${environment.apiUrl}`;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private notificationService: NotificationService
-  ) { }
+  ) {}
 
   register(email: string, password: string): Observable<any> {
-    return this.http.post('http://localhost:3000/register', {
-      email,
-      password,
-    }).pipe(
+    return this.http.post(`${this.apiUrl}/register`, { email, password }).pipe(
       catchError((error) => {
         console.error('Registration error:', error);
-        return throwError(() => error.error?.message || 'Registration failed');
+
+        if (error.status === 409) {
+          this.notificationService.show(
+            'Email already exists. Please use a different email or try logging in.',
+            'error'
+          );
+          return throwError(() => 'Email already exists');
+        }
+
+        const errorMessage =
+          error.error?.error || error.error?.message || 'Registration failed';
+        this.notificationService.show(errorMessage, 'error');
+        return throwError(() => errorMessage);
       })
     );
   }
@@ -36,7 +47,7 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return new Observable((subscriber) => {
       this.http
-        .post<{ token: string, role: string }>('http://localhost:3000/login', {
+        .post<{ token: string; role: string }>(`${this.apiUrl}/login`, {
           email,
           password,
         })
@@ -46,7 +57,6 @@ export class AuthService {
             localStorage.setItem(this.roleKey, response.role || 'user');
             localStorage.setItem(this.emailKey, email);
 
-            // Show login success notification
             this.notificationService.show(
               `Successfully logged in as ${response.role || 'user'}`,
               'success'
@@ -54,7 +64,6 @@ export class AuthService {
 
             this.roleChange.next(response.role || 'user');
 
-            // Redirect based on role
             if (response.role === 'admin') {
               this.router.navigate(['/dashboard']);
             } else {

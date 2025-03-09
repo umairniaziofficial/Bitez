@@ -1,0 +1,210 @@
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+  <h1 class="text-3xl font-bold mb-8 text-gray-800">Checkout</h1>
+
+  <div *ngIf="orderCompleted"
+    class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-6 mb-8 text-center">
+    <mat-icon class="text-green-500 text-5xl mb-3">check_circle</mat-icon>
+    <h2 class="text-2xl font-bold mb-2">Order Placed Successfully!</h2>
+    <p class="mb-4">Thank you for your order. You will be redirected to the order confirmation page.</p>
+    <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-green-500 mx-auto"></div>
+  </div>
+
+  <div *ngIf="cartItems.length === 0 && !orderCompleted" class="bg-white rounded-lg shadow-md p-8 text-center">
+    <mat-icon class="text-gray-300 text-6xl mb-4">shopping_cart</mat-icon>
+    <h2 class="text-xl font-semibold text-gray-600 mb-2">Your cart is empty</h2>
+    <p class="text-gray-500 mb-6">You need to add items to your cart before checkout.</p>
+    <button routerLink="/"
+      class="bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-colors">
+      Browse Menu
+    </button>
+  </div>
+
+  <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 p-4 rounded mb-6">
+    {{ error }}
+  </div>
+
+  <div *ngIf="cartItems.length > 0 && !orderCompleted" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-2">
+      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" class="space-y-8">
+        <div formGroupName="customerInfo" class="bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold mb-4 flex items-center">
+            <mat-icon class="mr-2 text-secondary">person</mat-icon>
+            Customer Information
+          </h2>
+
+          <div class="grid grid-cols-1 gap-6">
+            <div class="form-group">
+              <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <input type="text" id="name" formControlName="name"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary">
+              <div
+                *ngIf="checkoutForm.get('customerInfo.name')?.invalid && checkoutForm.get('customerInfo.name')?.touched"
+                class="text-red-500 text-sm mt-1">
+                Name is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+              <input type="email" id="email" formControlName="email"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary">
+              <div
+                *ngIf="checkoutForm.get('customerInfo.email')?.invalid && checkoutForm.get('customerInfo.email')?.touched"
+                class="text-red-500 text-sm mt-1">
+                Please enter a valid email address
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+              <input type="tel" id="phone" formControlName="phone"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary">
+              <div
+                *ngIf="checkoutForm.get('customerInfo.phone')?.invalid && checkoutForm.get('customerInfo.phone')?.touched"
+                class="text-red-500 text-sm mt-1">
+                Phone number is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div formGroupName="shippingAddress" class="bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold mb-4 flex items-center">
+            <mat-icon class="mr-2 text-secondary">home</mat-icon>
+            Shipping Address
+          </h2>
+
+          <div class="grid grid-cols-1 gap-6">
+            <div class="form-group">
+              <label for="street" class="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
+              <input type="text" id="street" formControlName="street"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary">
+              <div
+                *ngIf="checkoutForm.get('shippingAddress.street')?.invalid && checkoutForm.get('shippingAddress.street')?.touched"
+                class="text-red-500 text-sm mt-1">
+                Street address is required
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="form-group">
+                <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                <input type="text" id="city" formControlName="city"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary">
+                <div
+                  *ngIf="checkoutForm.get('shippingAddress.city')?.invalid && checkoutForm.get('shippingAddress.city')?.touched"
+                  class="text-red-500 text-sm mt-1">
+                  City is required
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State/Province</label>
+                <input type="text" id="state" formControlName="state"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary">
+                <div
+                  *ngIf="checkoutForm.get('shippingAddress.state')?.invalid && checkoutForm.get('shippingAddress.state')?.touched"
+                  class="text-red-500 text-sm mt-1">
+                  State is required
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="form-group">
+                <label for="zipCode" class="block text-sm font-medium text-gray-700 mb-1">ZIP / Postal Code</label>
+                <input type="text" id="zipCode" formControlName="zipCode"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary">
+                <div
+                  *ngIf="checkoutForm.get('shippingAddress.zipCode')?.invalid && checkoutForm.get('shippingAddress.zipCode')?.touched"
+                  class="text-red-500 text-sm mt-1">
+                  ZIP code is required
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                <input type="text" id="country" formControlName="country"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary">
+                <div
+                  *ngIf="checkoutForm.get('shippingAddress.country')?.invalid && checkoutForm.get('shippingAddress.country')?.touched"
+                  class="text-red-500 text-sm mt-1">
+                  Country is required
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold mb-4 flex items-center">
+            <mat-icon class="mr-2 text-secondary">payment</mat-icon>
+            Payment Method
+          </h2>
+
+          <div class="space-y-4">
+            <div *ngFor="let method of paymentMethods" class="flex items-center">
+              <input type="radio" [id]="method.id" [value]="method.id" formControlName="paymentMethod"
+                class="h-4 w-4 text-secondary focus:ring-secondary border-gray-300">
+              <label [for]="method.id" class="ml-3 block text-sm font-medium text-gray-700">
+                {{ method.name }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-end space-x-4">
+          <button type="button" (click)="cancelCheckout()"
+            class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+            Cancel
+          </button>
+          <button type="submit" [disabled]="checkoutForm.invalid || isSubmitting"
+            class="px-8 py-3 bg-secondary text-white rounded-lg hover:bg-opacity-90 transition-colors flex items-center">
+            <span *ngIf="isSubmitting"
+              class="inline-block h-4 w-4 mr-2 border-2 border-t-transparent border-white rounded-full animate-spin"></span>
+            {{ isSubmitting ? 'Processing...' : 'Place Order' }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="lg:col-span-1">
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4 flex items-center">
+          <mat-icon class="mr-2 text-secondary">shopping_cart</mat-icon>
+          Order Summary
+        </h2>
+
+        <div class="divide-y divide-gray-200">
+          <div *ngFor="let item of cartItems" class="py-4 flex justify-between">
+            <div class="flex items-center">
+              <div class="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 mr-4">
+                <img [src]="item.imgUrl" [alt]="item.name" class="h-full w-full object-cover object-center">
+              </div>
+              <div>
+                <h3 class="text-sm text-gray-800">{{ item.name }}</h3>
+                <p class="mt-1 text-xs text-gray-500">Qty: {{ item.quantity }}</p>
+              </div>
+            </div>
+            <p class="text-sm font-medium text-gray-900">${{ (item.price * item.quantity).toFixed(2) }}</p>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-200 mt-6 pt-6 space-y-4">
+          <div class="flex justify-between">
+            <p class="text-sm text-gray-600">Subtotal</p>
+            <p class="text-sm font-medium text-gray-900">${{ cartTotal.toFixed(2) }}</p>
+          </div>
+          <div class="flex justify-between">
+            <p class="text-sm text-gray-600">Shipping</p>
+            <p class="text-sm font-medium text-gray-900">Free</p>
+          </div>
+          <div class="flex justify-between border-t border-gray-200 pt-4">
+            <p class="text-base font-medium text-gray-900">Total</p>
+            <p class="text-base font-bold text-secondary">${{ cartTotal.toFixed(2) }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

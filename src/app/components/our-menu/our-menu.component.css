@@ -1,13 +1,29 @@
 .card-container {
     transform: translateY(0);
     transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease forwards;
 }
 
 .card-container:hover {
     transform: translateY(-5px);
 }
 
+.card-container img {
+    transition: transform 0.5s ease;
+}
+
+.card-container:hover img {
+    transform: scale(1.05);
+}
+
 .pattern-dots {
     background-image: radial-gradient(currentColor 2px, transparent 2px);
-    background-size: calc(10 * 2px) calc(10 * 2px);
+    background-size: 1.5rem 1.5rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }

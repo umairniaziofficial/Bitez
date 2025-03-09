@@ -1,9 +1,17 @@
 <div class="">
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Add New Product</h2>
-        <div class="mr-4 flex items-center justify-center w-10 h-10 rounded-full"> <mat-icon
-            class="text-red-500" style="font-size: 20px; width: 20px; height: 20px">restaurant_menu</mat-icon>
+        <div class="mr-4 flex items-center justify-center w-10 h-10 rounded-full"> <mat-icon class="text-red-500"
+                style="font-size: 20px; width: 20px; height: 20px">restaurant_menu</mat-icon>
+        </div>
     </div>
+
+    <div *ngIf="success" class="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+        {{ success }}
+    </div>
+
+    <div *ngIf="error" class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+        {{ error }}
     </div>
 
     <form class="space-y-6" (ngSubmit)="onSubmit()" #productForm="ngForm">
@@ -63,16 +71,48 @@
             <div class="relative">
                 <mat-icon class="absolute left-3 top-3 text-gray-400">image</mat-icon>
                 <input type="text" id="imgUrl" name="imgUrl" [(ngModel)]="product.imgUrl" placeholder="Enter image URL"
-                    required
+                    required (blur)="validateAndPreviewImage()"
                     class="w-full pl-10 pr-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 transition-colors">
+            </div>
+            <div *ngIf="imageError" class="text-red-500 text-sm mt-1">
+                {{ imageError }}
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            <label for="rating" class="block text-sm font-medium text-gray-700">Product Rating</label>
+            <div class="relative">
+                <mat-icon class="absolute left-3 top-3 text-gray-400">star</mat-icon>
+                <input type="number" id="rating" name="rating" [(ngModel)]="product.rating"
+                    placeholder="Enter product rating" min="0" max="5" step="0.5"
+                    class="w-full pl-10 pr-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 transition-colors">
+                <div class="text-xs text-gray-500 mt-1">Rating between 0 and 5 (default: 4.5)</div>
+            </div>
+        </div>
+
+        <div *ngIf="showImagePreview && product.imgUrl" class="mt-4 p-4 border border-gray-200 rounded-lg">
+            <h3 class="text-sm font-medium text-gray-700 mb-2">Image Preview</h3>
+            <div class="relative bg-gray-100 rounded-lg overflow-hidden flex justify-center">
+                <img [src]="product.imgUrl" alt="Product Image Preview" (error)="handleImageError()"
+                    (load)="handleImageLoaded()" class="h-48 object-contain">
+                <div *ngIf="isImageLoading"
+                    class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white">
+                    <div class="text-center">
+                        <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-white mx-auto">
+                        </div>
+                        <p class="mt-2 text-sm">Loading preview...</p>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="pt-4">
-            <button type="submit" [disabled]="!productForm.form.valid"
+            <button type="submit" [disabled]="!productForm.form.valid || isSubmitting"
                 class="w-full flex justify-center items-center bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out">
-                <mat-icon class="mr-2">add_circle</mat-icon>
-                Add Product
+                <mat-icon *ngIf="!isSubmitting" class="mr-2">add_circle</mat-icon>
+                <span *ngIf="isSubmitting"
+                    class="inline-block w-4 h-4 mr-2 border-2 border-t-transparent border-white rounded-full animate-spin"></span>
+                {{ isSubmitting ? 'Adding Product...' : 'Add Product' }}
             </button>
         </div>
     </form>

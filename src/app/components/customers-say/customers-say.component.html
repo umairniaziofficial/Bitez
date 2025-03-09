@@ -3,21 +3,18 @@
     <div class="absolute inset-0 opacity-5 pattern-dots"></div>
 
     <div class="py-6 sm:py-8 flex flex-col max-w-7xl mx-auto relative">
-        <!-- Header section with progress bar -->
         <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pb-8 sm:pb-12">
             <div class="relative w-full sm:w-auto">
                 <h1 class="text-3xl sm:text-4xl font-bold relative text-center sm:text-left">
                     What our Customers say?
                     <span class="absolute -bottom-2 left-0 w-1/2 h-1 bg-secondary rounded-full"></span>
                 </h1>
-                <!-- Progress bar -->
                 <div class="h-1 bg-gray-200 rounded-full mt-4 relative overflow-hidden">
                     <div class="h-full bg-secondary rounded-full transition-all duration-500"
                         [style.width.%]="progressPercentage"></div>
                 </div>
             </div>
 
-            <!-- Navigation Controls -->
             <div class="hidden sm:flex items-center gap-4">
                 <button (click)="previousSlide()" class="nav-button group" [class.disabled]="offset === 0"
                     aria-label="Previous slide">
@@ -30,9 +27,7 @@
             </div>
         </div>
 
-        <!-- Cards Container -->
         <div class="relative overflow-hidden w-full">
-            <!-- Desktop and Tablet Sliding View -->
             <div *ngIf="!isMobile" class="flex gap-4 w-full transition-transform duration-500 ease-out"
                 [style.transform]="'translateX(' + offset + '%)'">
                 <div *ngFor="let customer of customersData" [style.width]="cardWidth" class="flex-none" [@fadeSlide]>
@@ -51,7 +46,6 @@
                                             }}</p>
                                     </div>
                                 </div>
-                                <!-- Rating Stars -->
                                 <div class="flex gap-1 mb-3">
                                     <mat-icon *ngFor="let star of [1,2,3,4,5]" class="text-yellow-400">star</mat-icon>
                                 </div>
@@ -67,7 +61,6 @@
                 </div>
             </div>
 
-            <!-- Mobile Grid View -->
             <div *ngIf="isMobile" class="grid grid-cols-1 gap-6 animate-fadeIn">
                 <div *ngFor="let customer of visibleCards"
                     class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
@@ -90,7 +83,6 @@
             </div>
         </div>
 
-        <!-- Mobile Load More Button -->
         <div *ngIf="showLoadMore" class="mt-8 flex justify-center">
             <button (click)="loadMore()"
                 class="group px-8 py-3 bg-secondary text-white rounded-full hover:bg-white hover:text-secondary border-2 border-secondary transition-all duration-300 flex items-center gap-2">

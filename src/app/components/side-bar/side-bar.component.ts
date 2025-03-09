@@ -28,6 +28,8 @@ export class SideBarComponent implements OnInit, OnDestroy {
     { label: 'Dashboard', icon: 'inventory_2', route: '/dashboard', exact: true },
     { label: 'Add Product', icon: 'add_box', route: '/dashboard/add-product' },
     { label: 'Orders', icon: 'shopping_cart', route: '/dashboard/orders' },
+    { label: 'Products', icon: 'inventory', route: '/dashboard/products' },
+    { label: 'Add Order', icon: 'receipt_long', route: '/dashboard/add-order' },
   ];
   showMobileMenu = false;
   constructor(private router: Router, private authService: AuthService) { }
@@ -77,13 +79,12 @@ export class SideBarComponent implements OnInit, OnDestroy {
   toggleMobileMenu(): void {
     this.showMobileMenu = !this.showMobileMenu;
   }
-  
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    // Close mobile menu when clicking outside
     const clickedElement = event.target as HTMLElement;
-    if (this.showMobileMenu && !clickedElement.closest('.mobile-menu') && 
-        !clickedElement.classList.contains('more-button')) {
+    if (this.showMobileMenu && !clickedElement.closest('.mobile-menu') &&
+      !clickedElement.classList.contains('more-button')) {
       this.showMobileMenu = false;
     }
   }

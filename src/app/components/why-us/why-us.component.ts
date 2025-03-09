@@ -146,7 +146,6 @@ export class WhyUsComponent implements OnInit {
     this.checkScroll();
     this.startImageRotation();
 
-    // Initialize with first food selected
     setTimeout(() => {
       this.selectFood(0);
     }, 1000);
@@ -208,7 +207,6 @@ export class WhyUsComponent implements OnInit {
       this.selectedFoodIndex = null;
     } else {
       this.selectedFoodIndex = index;
-      // Add image transition effect
       this.isImageChanging = true;
       setTimeout(() => {
         this.currentFoodImage = this.foodTypes[index].image;
