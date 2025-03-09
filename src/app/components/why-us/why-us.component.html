@@ -1,4 +1,4 @@
-<div class="hero-section min-h-screen flex items-center p-6 md:p-12 w-full relative"
+<div class="hero-section min-h-screen flex items-center p-6 md:p-12 w-full relative overflow-hidden"
     [ngClass]="{'scroll-active': scrollActive}">
     <!-- Animated background elements -->
     <div class="animated-bg">
@@ -59,14 +59,15 @@
             <div class="parallax-container h-96 w-full relative overflow-hidden rounded-xl shadow-2xl"
                 (mousemove)="handleParallax($event)">
                 <div class="parallax-image" [style.transform]="'translate(' + parallaxX + 'px, ' + parallaxY + 'px)'">
-                    <img [src]="currentFoodImage" 
-                         [ngClass]="{'opacity-0': isImageChanging, 'opacity-100': !isImageChanging}"
-                         class="w-full h-full object-cover transition-opacity duration-300" 
-                         alt="Food Image">
+                    <img [src]="currentFoodImage"
+                        [ngClass]="{'opacity-0': isImageChanging, 'opacity-100': !isImageChanging}"
+                        class="w-full h-full object-cover transition-opacity duration-300" alt="Food Image">
                 </div>
                 <div class="overlay-text p-6 absolute bottom-0 left-0 w-full text-white">
-                    <h3 class="text-2xl font-bold">{{selectedFoodIndex !== null ? foodTypes[selectedFoodIndex].name : 'Passion in Every Plate'}}</h3>
-                    <p>{{selectedFoodIndex !== null ? foodTypes[selectedFoodIndex].description : 'Crafting unforgettable food experiences'}}</p>
+                    <h3 class="text-2xl font-bold">{{selectedFoodIndex !== null ? foodTypes[selectedFoodIndex].name :
+                        'Passion in Every Plate'}}</h3>
+                    <p>{{selectedFoodIndex !== null ? foodTypes[selectedFoodIndex].description : 'Crafting unforgettable
+                        food experiences'}}</p>
                 </div>
             </div>
 

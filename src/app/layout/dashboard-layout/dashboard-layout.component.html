@@ -1,0 +1,26 @@
+<div class="flex flex-col h-screen w-full overflow-hidden">
+    <!-- Navbar -->
+    <div class="bg-gradient-to-r bg-black text-white shadow-lg">
+        <div class="flex items-center p-4 border-b border-gray-800">
+            <div class="rounded-lg bg-gray-700/30 p-2 flex items-center justify-center">
+                <mat-icon class="text-white">bubble_chart</mat-icon>
+            </div>
+            <h1 class="ml-3 font-bold text-lg">Bitez</h1>
+        </div>
+    </div>
+
+    <!-- Main content area with sidebar -->
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Sidebar container -->
+        <div class="h-full">
+            <app-side-bar />
+        </div>
+
+        <!-- Content area -->
+        <div class="flex-1 overflow-auto">
+            <div class="p-12">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>
