@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { EmailService } from '../../services/email.service';
 
 @Component({
   selector: 'app-contact-us',
@@ -11,8 +12,47 @@ import { FormsModule } from '@angular/forms';
 })
 export class ContactUsComponent {
   submitted = false;
+  loading = false;
+  errorMessage = '';
+  
+  // Form data model
+  formData = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    company: '',
+    subject: '',
+    message: ''
+  };
 
-  onSubmit() {
-    this.submitted = true;
+  constructor(private emailService: EmailService) {}
+
+  async onSubmit() {
+    this.loading = true;
+    this.errorMessage = '';
+    
+    try {
+      await this.emailService.sendEmail(this.formData);
+      this.submitted = true;
+      this.resetForm();
+    } catch (error) {
+      this.errorMessage = 'Failed to send message. Please try again later.';
+      console.error('Error in form submission:', error);
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  resetForm() {
+    this.formData = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      company: '',
+      subject: '',
+      message: ''
+    };
   }
 }
