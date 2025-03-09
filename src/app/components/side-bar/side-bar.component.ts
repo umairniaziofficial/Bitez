@@ -28,7 +28,6 @@ export class SideBarComponent implements OnInit, OnDestroy {
     { label: 'Dashboard', icon: 'inventory_2', route: '/dashboard', exact: true },
     { label: 'Add Product', icon: 'add_box', route: '/dashboard/add-product' },
     { label: 'Orders', icon: 'shopping_cart', route: '/dashboard/orders' },
-    { label: 'Earnings', icon: 'payments', route: '/dashboard/earnings' },
   ];
   showMobileMenu = false;
   constructor(private router: Router, private authService: AuthService) { }

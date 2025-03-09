@@ -1,1 +1,79 @@
-<p>add-product works!</p>
+<div class="">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Add New Product</h2>
+        <div class="mr-4 flex items-center justify-center w-10 h-10 rounded-full"> <mat-icon
+            class="text-red-500" style="font-size: 20px; width: 20px; height: 20px">restaurant_menu</mat-icon>
+    </div>
+    </div>
+
+    <form class="space-y-6" (ngSubmit)="onSubmit()" #productForm="ngForm">
+        <div class="space-y-2">
+            <label for="name" class="block text-sm font-medium text-gray-700">Product Name</label>
+            <div class="relative">
+                <mat-icon class="absolute left-3 top-3 text-gray-400">fastfood</mat-icon>
+                <input type="text" id="name" name="name" [(ngModel)]="product.name" placeholder="Enter product name"
+                    required
+                    class="w-full pl-10 pr-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 transition-colors">
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            <label for="description" class="block text-sm font-medium text-gray-700">Product Description</label>
+            <div class="relative">
+                <mat-icon class="absolute left-3 top-3 text-gray-400">description</mat-icon>
+                <textarea id="description" name="description" [(ngModel)]="product.description"
+                    placeholder="Enter product description" maxlength="150" rows="3"
+                    class="w-full pl-10 pr-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 transition-colors"></textarea>
+                <div class="text-xs text-gray-500 text-right mt-1">
+                    Maximum 150 characters
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            <label for="price" class="block text-sm font-medium text-gray-700">Product Price</label>
+            <div class="relative">
+                <mat-icon class="absolute left-3 top-3 text-gray-400">attach_money</mat-icon>
+                <input type="number" id="price" name="price" [(ngModel)]="product.price"
+                    placeholder="Enter product price" min="0" step="0.01" required
+                    class="w-full pl-10 pr-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 transition-colors">
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            <label for="category" class="block text-sm font-medium text-gray-700">Product Category</label>
+            <div class="relative">
+                <mat-icon class="absolute left-3 top-3 text-gray-400">category</mat-icon>
+                <input type="text" id="category" name="category" [(ngModel)]="product.category" list="categories"
+                    placeholder="Select or enter category" required
+                    class="w-full pl-10 pr-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 transition-colors">
+                <datalist id="categories">
+                    <option value="Special Foods">
+                    <option value="Indian">
+                    <option value="Drinks">
+                    <option value="Desserts">
+                    <option value="Snacks">
+                    <option value="Chinese">
+                </datalist>
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            <label for="imgUrl" class="block text-sm font-medium text-gray-700">Image URL</label>
+            <div class="relative">
+                <mat-icon class="absolute left-3 top-3 text-gray-400">image</mat-icon>
+                <input type="text" id="imgUrl" name="imgUrl" [(ngModel)]="product.imgUrl" placeholder="Enter image URL"
+                    required
+                    class="w-full pl-10 pr-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 transition-colors">
+            </div>
+        </div>
+
+        <div class="pt-4">
+            <button type="submit" [disabled]="!productForm.form.valid"
+                class="w-full flex justify-center items-center bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-medium py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out">
+                <mat-icon class="mr-2">add_circle</mat-icon>
+                Add Product
+            </button>
+        </div>
+    </form>
+</div>
