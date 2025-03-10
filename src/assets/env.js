@@ -1,7 +1,9 @@
-window.__env = {
-    API_URL: "%API_URL%",
-    EMAILJS_SERVICE_ID: "%EMAILJS_SERVICE_ID%",
-    EMAILJS_TEMPLATE_ID: "%EMAILJS_TEMPLATE_ID%",
-    EMAILJS_USER_ID: "%EMAILJS_USER_ID%",
+(function(window) {
+  window.env = window.env || {};
+  window.env.apiUrl = "";
+  window.env.emailjs = {
+    serviceId: "",
+    templateId: "",
+    userId: ""
   };
-  
+})(this);

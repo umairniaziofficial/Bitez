@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --configuration=production",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "deploy": "vercel --prod"
+    "config": "node config.js",
+    "start": "npm run config && ng serve",
+    "build": "npm run config && ng build --configuration=production",
+    "watch": "npm run config && ng build --watch --configuration development",
+    "test": "npm run config && ng test",
+    "deploy": "npm run config && vercel --prod"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +33,7 @@
     "@angular/compiler-cli": "^19.0.0",
     "@types/jasmine": "~5.1.0",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^16.4.7",
     "jasmine-core": "~5.4.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
